@@ -1,0 +1,10 @@
+.DS_Store
+.sass-cache
+npm-debug.log
+
+vendor
+bin
+assets/node_modules
+assets/app/assets/bower_components
+assets/dist
+assets/.tmp

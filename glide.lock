@@ -1,0 +1,21 @@
+hash: 5d81ad48c69bdaa6b68bda1db91ba5d737c5609ec3eef466d24518f1e54c8f81
+updated: 2016-06-12T16:42:48.494162699+09:00
+imports:
+- name: github.com/coreos/pkg
+  version: db59686ef7fbc1c63a2325fe702be75bcfe7eedf
+  subpackages:
+  - httputil
+  - flagutil
+- name: github.com/gorilla/context
+  version: aed02d124ae4a0e94fea4541c8effd05bf0c8296
+- name: github.com/gorilla/handlers
+  version: 66e6c6f01d8da976ee113437745ca029c2b585a6
+- name: github.com/gorilla/mux
+  version: 9fa818a44c2bf1396a17f9d5a3c0f6dd39d2ff8e
+- name: github.com/Sirupsen/logrus
+  version: f3cfb454f4c209e6668c95216c4744b8fddb2356
+- name: golang.org/x/sys
+  version: 7f918dd405547ecb864d14a8ecbbfe205b5f930f
+  subpackages:
+  - unix
+devImports: []

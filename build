@@ -1,0 +1,23 @@
+#! /usr/bin/env bash
+
+set -e
+
+COMMIT="$(git rev-parse HEAD)"
+TAG="$(git describe --exact-match --abbrev=0 --tags ${COMMIT} 2> /dev/null || true)"
+
+# use the matching tag as the version, if available
+if [ -z "$TAG" ]; then
+    VERSION="$COMMIT"
+else
+    VERSION="$TAG"
+fi
+
+# check for changed files
+if [ -n "$(git diff --shortstat 2> /dev/null | tail -n1)" ]; then
+    VERSION="${VERSION}-dirty"
+fi
+
+LD_FLAGS="-X main.version=${VERSION} -X main.commit=${COMMIT}"
+TARGET="github.com/superbrothers/kubectl-expla.in"
+
+CGO_ENABLED=0 go build -a -o="bin/kubectl-explain" -ldflags="-s $LD_FLAGS" $TARGET

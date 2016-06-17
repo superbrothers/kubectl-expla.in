@@ -1,0 +1,27 @@
+#! /usr/bin/env bash
+
+set -e
+
+REPO=github.com/superbrothers/kubectl-expla.in
+
+stage() {
+  echo -e "\033[36m----> $1\033[0m"
+}
+
+stage "cleanup"
+rm -rf ./vendor ./assets/node_modules ./assets/app/assets/bower_components
+
+stage "build bin/kubectl-explain"
+GO_VERSION=1.6
+docker run --rm -v `pwd`:/go/src/$REPO -w /go/src/$REPO golang:$GO_VERSION bash -x -c "go get github.com/Masterminds/glide && glide install && ./build"
+
+stage "build assets files"
+NODE_VERSION=6.2
+docker run --rm -v `pwd`/assets:/usr/src/app -w /usr/src/app node:$NODE_VERSION bash -x -c "npm install --silent && npm run bower -- install --allow-root && npm run build"
+
+stage "build docker image"
+IMAGE=superbrothers/kubectl-expla.in
+docker build -t $IMAGE .
+VERSION="$(docker run --rm $IMAGE -version 2>&1 | grep "Version: " | sed -e "s/Version: //")"
+docker tag $IMAGE $IMAGE:$VERSION
+docker images $IMAGE:$VERSION
